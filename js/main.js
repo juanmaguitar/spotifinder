@@ -1,47 +1,12 @@
+const token = 'BQDkuAGjd0FhNkXaslV9HiqgxxmJsRJrKVv3SainWkpcb8Hu1xnsL16EAPizE-S4rn6SJSqiVhmNPcT47Tj1-7UgsotCSUg0vm2HWK4JDKIlXefA9V_3AYINNwiusgs2ro17_hH0w9uyVKZZRBgT'
 
-var token = 'BQDEqN9ClSrMmSagqT81aWtgS9yyhCTr0xVKA6CuWxm-F4G4R-fSVzHgYyGhXUcq0m6ZY20uRlVEWRkpuyCwXw_LTbdb8aEeppxrN2GHE4ymdtvUtwAPpJ2wJo7Kt4vTxNCmR60jYaKGCxHARulm'
+const urlSearch = 'https://api.spotify.com/v1/search'
+const urlGetAlbums = 'https://api.spotify.com/v1/artists/<%ID_ARTIST%>/albums'
+const urlGetTracks = 'https://api.spotify.com/v1/albums/<%ID_ALBUM%>/tracks'
 
-var urlSearch = 'https://api.spotify.com/v1/search'
-var urlGetAlbums = 'https://api.spotify.com/v1/artists/<%ID_ARTIST%>/albums'
-var urlGetTracks = 'https://api.spotify.com/v1/albums/<%ID_ALBUM%>/tracks'
+const defaultImg = 'http://www.polyvore.com/cgi/img-thing?.out=jpg&size=l&tid=4577402'
 
-var itemResultTpl = $('#tplItemResult').text().trim()
-
-$('#search').on('submit', function(e) {
-    e.preventDefault()
-    var query = $(this).find('input').val()
-
-    $.ajax({
-      url: 'https://api.spotify.com/v1/search',
-      data: {
-          q: query,
-          type: 'artist'
-      },
-      headers: {
-          Authorization: 'Bearer ' + token
-      }
-    })
-    .then(function(oData) {
-
-        var contentSelect = ''
-        var defaultImg = 'http://www.polyvore.com/cgi/img-thing?.out=jpg&size=l&tid=4577402'
-
-        oData.artists.items.forEach( function(artist) {
-          var imageBand = artist.images && artist.images[0] && artist.images[0].url || defaultImg
-
-
-          contentSelect += itemResultTpl
-                            .replace('<%IMG%>', imageBand )
-                            .replace('<%ID%>', artist.id)
-                            .replace('<%NAME%>', artist.name)
-        })
-
-        $('#artists .results').html(contentSelect)
-        $('#artists').removeClass('hidden')
-        $('#albums, #tracks').addClass('hidden')
-
-    })
-})
+const itemResultTpl = $('#tplItemResult').text().trim()
 
 $('#artists .results').on('click', 'a', function(e) {
   e.preventDefault()
